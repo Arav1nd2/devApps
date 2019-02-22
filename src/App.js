@@ -9,6 +9,8 @@ import {connect} from 'react-redux';
 import {setUser,logout} from './components/store/Thunks/thunks';
 import {app} from './firebase';
 import Navigation from './components/nav/nav';
+import Home from './components/Home/home';
+import Orders from './components/client/viewStatus/orders';
 
 class App extends Component {
   componentDidMount() {
@@ -26,8 +28,12 @@ class App extends Component {
         <Router history = {history}>
           <div>
                  <Navigation />
+                 <Route exact path = '/' component = {Home} />
                  <Route exact path = '/login' component = {Login} />
                  <Route exact path = '/signup' component = {Signup} />
+                 <Route exact path = '/orders' render = {(props) => (
+                   this.props.user ? <Orders {...props}/> : <Redirect to = '/login' />
+                 )} />
                  <Route path = '/verify' component = {Verification} />
           </div>
         </Router>

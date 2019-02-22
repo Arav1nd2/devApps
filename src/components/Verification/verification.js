@@ -31,11 +31,13 @@ class Verification extends Component {
         }
         this.handleVerify = () => {
             app.auth().applyActionCode(this.state.actionCode).then((res) => {
-                let uid = app.auth().currentUser.uid;
+                let user = app.auth().currentUser;
                 let docData = {
-                    id : uid
+                    id : user.uid,
+                    orders : [],
+                    email : user.email
                 }
-                db.collection('users').doc(uid).set(docData).then(()=> {
+                db.collection('users').doc(user.uid).set(docData).then(()=> {
                     console.log("Document Written successfully");
                 }).catch((err) => {
                     console.log(err);

@@ -1,20 +1,35 @@
 import React, { Component } from 'react';
-import {Navbar,NavItem} from 'react-materialize';
 import {connect} from 'react-redux';
-import {logout} from '../store/Thunks/thunks'
+import {logout} from '../store/Thunks/thunks';
+import {Link,NavLink} from 'react-router-dom';
+import {Navbar} from 'react-materialize';
 import './nav.css';
 
 class Navigation extends Component {
     render() {
         return (
             <div >
-                <Navbar brand = "ProdPrint" right className = "brown">
-                    {this.props.authState ? <div>
-                    <NavItem href='/orders'>Your orders</NavItem>
-                    <NavItem onClick = {() => this.props.logout()}> Logout </NavItem>
-                    </div> :
-                    <NavItem href='/SignUp'>Signup</NavItem>}
-                </Navbar>
+                <nav>
+                    <Navbar brand = "&nbsp;ProdPrint" className = "grey darken-4" right>
+                    <div> 
+                        <ul>
+                        {this.props.authState ?
+                            <div>
+                            <li><NavLink to = '/'>Home</NavLink></li>
+                            <li><NavLink to='/orders'>Your orders</NavLink></li>
+                            <li><NavLink to = '/login' onClick = {() => this.props.logout()}>Logout</NavLink></li>
+                            </div> :
+                            <div>
+                            <li><NavLink to = '/'>Home</NavLink></li>
+                            <li><NavLink to='/signUp'>Signup</NavLink></li>
+                            <li><NavLink to = '/login'>Login</NavLink></li>
+                            </div>
+                        }
+                        
+                        </ul>
+                    </div>
+                    </Navbar>
+                </nav>    
             </div>
         );
     }

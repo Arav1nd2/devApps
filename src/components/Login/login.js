@@ -59,7 +59,7 @@ class Login extends Component {
 
     render() {
         return (
-            <div className="login-wrapper">
+            <div className="login-wrapper container">
                 <h4>Login</h4>
                     <div className="form-group">
                         <label >Email address</label>

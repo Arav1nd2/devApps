@@ -56,7 +56,7 @@ class Signup extends Component {
     }
     render() {
         return (
-            <div className="login-wrapper">
+            <div className="login-wrapper container">
                 <h2>Signup</h2>
                 
                     <div className="form-group">
