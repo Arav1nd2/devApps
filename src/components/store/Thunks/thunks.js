@@ -55,3 +55,45 @@ export const setUser = (userId) => (dispatch) => {
         }
     })
 }
+
+export const postOrder = (details) => (dispatch) => {
+    console.log("Inside postOrder");
+    let data = store.getState().reducer.user;
+    let order = store.getState().reducer.orders ? store.getState().reducer.orders : [];
+    let newDetails = {...details,userid : data.id}
+    db.collection('orders').add(newDetails).then((docRef) => {
+        let users,newOrder;
+        newOrder = [...order,newDetails];
+        users = {...data,"orders" : [...data.orders,docRef.id] }        
+        db.collection('users').doc(data.id).set(users).then((doc) => {
+            console.log("Data added to database" + doc);
+            dispatch({
+                "type" : "placeOrder",
+                "newUser" : users ,
+                "newOrder" : newOrder
+            });          
+        });
+    })
+}
+
+export const getOrder = (ids) => (dispatch) => {
+    let jobs = [];
+    let idsProcessed = 0;
+    ids.forEach(element => {
+        db.collection('orders').doc(element).get().then((snap) => {
+            if(snap.exists) {
+                jobs.push(snap.data());
+            }
+        }).then(() => {
+            idsProcessed++;
+            if(idsProcessed === ids.length)
+            {
+                dispatch({
+                    "type" : "getOrders",
+                    "orders" : jobs
+                 });
+            }
+        })
+        
+    });
+}

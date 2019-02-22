@@ -1,38 +1,91 @@
 import React, { Component } from 'react';
-import {Button,Modal} from 'react-materialize';
+import {Button,Modal, Badge} from 'react-materialize';
 import {connect} from 'react-redux';
 import './order.css';
 import Post from '../postOrderes/post';
+import {getOrder} from '../../store/Thunks/thunks';
+import {Card,CardTitle} from 'react-materialize';
 
 
 class Orders extends Component {
+    constructor(props) {
+        super(props);
+        this.state= {
+            orders : []
+        }
+    }
+    componentDidMount() {
+        this.props.getOrder(this.props.user.orders);
+    }
+
+    static getDerivedStateFromProps( nextProps, prevState) {
+        if( nextProps.orders !== prevState.orders )
+        {
+            return {
+                orders: nextProps.orders
+            }
+        }
+        else
+            return null;    
+    }
+    getMaterial(m) {
+        switch(m) {
+            case 0 : 
+                return "Plastic";
+            case 1 :
+                return "Resins";
+            case 2 : 
+                return "PolyAmide(SlS)";
+            default :
+                return  "Plastic";
+        }
+    }
+    jobsPosted = () => {
+        console.log("jobsPosted(): ");
+        if(this.state.orders === undefined)
+            return;
+        console.log("Jobs posted is not undefined");
+        var i=1;
+        let jsx = this.state.orders.map( (order) => 
+            {
+                let badgeColor;
+                if(order.status === "pending") {
+                    badgeColor = "yellow";
+                }
+                else if(order.status === "accepted") {
+                    badgeColor = "green";
+                }
+                else if(order.status === "rejected") {
+                    badgeColor = "red";
+                }
+                return (
+                    <div className = "col s12 m4" key = {i}>
+                        <Card header={<CardTitle reveal image={order.url} waves='light'/>}
+                            title={i++ +""}
+                            reveal={<div>
+                                        <p><b>Dimensions</b> : {order.len} X {order.width} X {order.height}</p>
+                                        <p><b>Color </b> : {order.color}</p>
+                                        <p><b>Layer Height </b>: {order.layerHeight} </p>
+                                        <p><b>Price </b> : {order.price}</p>
+                                        <p><b>Material </b>: {this.getMaterial(order.material)}</p>
+                                    </div>
+                                    }>
+                            <p>Status : <Badge className = {badgeColor}>{order.status}</Badge></p>
+                        </Card>
+                    </div>
+                );}
+        );
+        return jsx;
+    }
     
     render() {
-        let displayValue = this.props.user ? (
-            this.props.user.orders.map((order) => {
-                return (
-                    <div className="row">
-                        <div className="col s12 m12">
-                        <div className="card">
-                            <div className="card-content">
-                            <span className="card-title">Card Title</span>
-                            <p>I am a very simple card. I am good at containing small bits of information.
-                            I am convenient because I require little markup to use effectively.</p>
-                            </div>
-                            <div className="card-action">
-                            <Button>This is a link</Button>
-                            <Button>This is a link</Button>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-                )
-            })
-        ) : "";
+      
         return (
             <div className = "container">
                 <h5>Your orders...</h5>
-                {displayValue}
+                <div className = "row" >
+                    {this.jobsPosted()}
+                </div>
                 <Modal  header = "Order something else"
                         trigger = {<Button floating large className='red addButton' waves='light' icon='add' />}>
                         <Post />
@@ -42,9 +95,11 @@ class Orders extends Component {
     }
 }
 const mapStateToProps = (state) => {
+    console.log(state.reducer);
     return ({
-        user : state.reducer.user
+        user : state.reducer.user,
+        orders : state.reducer.orders   
     });
 }
 
-export default connect(mapStateToProps)(Orders);
+export default connect(mapStateToProps,{getOrder})(Orders);

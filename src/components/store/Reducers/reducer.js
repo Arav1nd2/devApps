@@ -9,14 +9,12 @@ export const reducer = (state = {}, action = {}) => {
             return {...state, "error" : action.ErrorMessage}
         case 'logout' : 
             return {...state, "user" : null}
-    //     case 'addJobs' : 
-    //         return {...state}
-    //     case 'getJobs' : 
-    //         return {...state, "jobs" : action.jobs}
-    //     case 'updateProfile':
-    //         return {...state, "user": action.userDetails }
+        case 'placeOrder' :
+            return {...state, "uploadState" : true , "user" : action.newUser , "orders": action.newOrder}
         case 'setUsers' :
             return {...state, "user":action.user }
+        case 'getOrders' : 
+            return {...state, "orders": action.orders}
         default : return state;
     }
 }
