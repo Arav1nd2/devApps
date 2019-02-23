@@ -15,6 +15,10 @@ export const reducer = (state = {}, action = {}) => {
             return {...state, "user":action.user }
         case 'getOrders' : 
             return {...state, "orders": action.orders}
+        case 'getTasks' : 
+            return {...state, "tasks": action.tasks}
+        case 'getNotifs' : 
+            return {...state,"notifs" : action.notifs}
         default : return state;
     }
 }

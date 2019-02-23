@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
+import {getTasks} from '../../store/Thunks/thunks';
 
 class Dashboard extends Component {
+    componentDidMount() {
+        this.props.getTasks();
+    }
     render() {
         return (
             <div className = "container">
@@ -11,5 +15,11 @@ class Dashboard extends Component {
         );
     }
 }
+const mapStateToProps = (state) => {
+    console.log(state.reducer);
+    return ({
+        tasks : state.reducer.tasks
+    });
+}
 
-export default Dashboard;
+export default connect(mapStateToProps,{getTasks})(Dashboard);

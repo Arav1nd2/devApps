@@ -36,7 +36,7 @@ class Admin extends Component {
                    this.state.authState ? <Dashboard {...props} authState = {this.state.authState}/> : <Redirect to = '/admin/daksh2k19/login' />
                  )} />
                  <Route exact path = '/admin/daksh2k19/login' render = {(props) => (
-                     this.state.authState ? <Redirect to ="/admin/daksh2k19/dashboar" /> : <AdminLogin {...props} login = {this.login} />
+                     this.state.authState ? <Redirect to ="/admin/daksh2k19/dashboard" /> : <AdminLogin {...props} login = {this.login} />
                  )}/> 
             </div>
         );

@@ -59,8 +59,9 @@ export const setUser = (userId) => (dispatch) => {
 export const postOrder = (details) => (dispatch) => {
     console.log("Inside postOrder");
     let data = store.getState().reducer.user;
+    let date = new Date();
     let order = store.getState().reducer.orders ? store.getState().reducer.orders : [];
-    let newDetails = {...details,userid : data.id}
+    let newDetails = {...details,userid : data.id,contactEmail : data.email,time:date }
     db.collection('orders').add(newDetails).then((docRef) => {
         let users,newOrder;
         newOrder = [...order,newDetails];
@@ -96,4 +97,27 @@ export const getOrder = (ids) => (dispatch) => {
         })
         
     });
+}
+export const getTasks = () => (dispatch) => {
+    let tasks;
+    db.collection('tasks').get().then(snap => {
+        tasks = snap.docs.map((task) => task.data());
+    }).then(() => {
+        dispatch({
+            "type" : "getTasks",
+            tasks
+        });
+    })
+}
+
+export const getNotifs = () => (dispatch) => {
+    let notifs;
+    db.collection('orders').orderBy("time","asc").get().then(snap => {
+        notifs = snap.docs.map((notif) => notif.data());
+    }).then(() => {
+        dispatch({
+            "type" : "getNotifs",
+            notifs
+        });
+    })
 }
