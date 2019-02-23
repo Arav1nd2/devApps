@@ -1,3 +1,5 @@
+import {createReducer} from 'redux-starter-kit';
+
 export const reducer = (state = {}, action = {}) => {
 
     switch(action.type) {
@@ -19,6 +21,8 @@ export const reducer = (state = {}, action = {}) => {
             return {...state, "tasks": action.tasks}
         case 'getNotifs' : 
             return {...state,"notifs" : action.notifs}
+        case 'sendMail' : 
+            return {...state}
         default : return state;
     }
 }

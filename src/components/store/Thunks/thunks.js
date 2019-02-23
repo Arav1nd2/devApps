@@ -1,5 +1,6 @@
 import {app, db} from '../../../firebase';
 import {store, history} from '../store';
+import axios from 'axios';
 
 export const signup = (email,pass) => (dispatch) => {
     app.auth().createUserWithEmailAndPassword(email,pass).then(() => {
@@ -63,16 +64,19 @@ export const postOrder = (details) => (dispatch) => {
     let order = store.getState().reducer.orders ? store.getState().reducer.orders : [];
     let newDetails = {...details,userid : data.id,contactEmail : data.email,time:date }
     db.collection('orders').add(newDetails).then((docRef) => {
-        let users,newOrder;
-        newOrder = [...order,newDetails];
-        users = {...data,"orders" : [...data.orders,docRef.id] }        
-        db.collection('users').doc(data.id).set(users).then((doc) => {
-            console.log("Data added to database" + doc);
-            dispatch({
-                "type" : "placeOrder",
-                "newUser" : users ,
-                "newOrder" : newOrder
-            });          
+        newDetails = {...newDetails,orderId: docRef.id}
+        db.collection('orders').doc(docRef.id).update(newDetails).then(() => {
+            let users,newOrder;
+            newOrder = [...order,newDetails];
+            users = {...data,"orders" : [...data.orders,docRef.id] }        
+            db.collection('users').doc(data.id).set(users).then((doc) => {
+                console.log("Data added to database" + doc);
+                dispatch({
+                    "type" : "placeOrder",
+                    "newUser" : users ,
+                    "newOrder" : newOrder
+                });          
+            });
         });
     })
 }
@@ -110,14 +114,57 @@ export const getTasks = () => (dispatch) => {
     })
 }
 
-export const getNotifs = () => (dispatch) => {
-    let notifs;
-    db.collection('orders').orderBy("time","asc").get().then(snap => {
-        notifs = snap.docs.map((notif) => notif.data());
-    }).then(() => {
+    // export const getTasks = () => (dispatch) => {
+    //     let tasks = [];
+    //     console.log("Inside getTasks");
+    //     db.collection('tasks').onSnapshot(snap => {
+    //         let changes = snap.docChanges();
+    //         let newChange = changes.filter((val) => {return (val.type !== "removed")});
+    //         console.log(newChange);
+    //         dispatch({
+    //             "type" : "getTasks",
+    //             tasks
+    //         });
+    //     })
+    // }
+
+// export const getNotifs = () => (dispatch) => {
+//     let notifs;
+//     db.collection('orders').orderBy("time","asc").get().then(snap => {
+//         notifs = snap.docs.map((notif) => notif.data());
+//     }).then(() => {
+//         dispatch({
+//             "type" : "getNotifs",
+//             notifs
+//         });
+//     })
+// }
+    export const getNotifs = () => (dispatch) => {
+        let notifs = store.getState().reducer.notifs ? store.getState().reducer.notifs.splice() : []; 
+        db.collection('orders').orderBy('time','asc').onSnapshot((snap) => {
+            let changes = snap.docChanges();
+            console.log(changes);
+            changes.forEach(change => {
+                if(change.type === "added") {
+                    notifs.push(change.doc.data());
+                }
+                if(change.type === 'removed') {
+                    notifs = notifs.filter((val) => {return (val.orderId !== change.doc.id)})
+                }
+            })
+            console.log(notifs);
+            dispatch({
+                "type" : "getNotifs",
+                notifs
+            });
+        })
+    }
+
+export const sendMail = (data) => (dispatch) => {
+    axios.post('https://us-central1-devapps-5c8a1.cloudfunctions.net/sendEmail/sendemail', data).then((res) => {
+        console.log(res);
         dispatch({
-            "type" : "getNotifs",
-            notifs
+            "type" : "sendMail"
         });
-    })
+    }).catch((err) => console.log(err));
 }

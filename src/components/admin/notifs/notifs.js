@@ -1,50 +1,39 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import {getNotifs} from '../../store/Thunks/thunks';
-import {Card,CardTitle,Badge} from 'react-materialize';
-import Button from 'react-materialize/lib/Button';
+import Cards from './cards';
 
 class Notifs extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            notifs : []
+        }
+    }
+    
     
     componentDidMount() {
         this.props.getNotifs();
     }
-    handleAccept = () => {
-        console.log("Send Accepted email");
-    }
-    handleReject = () => {
-        console.log("Send rejection mail");
-    }
-    getMaterial(m) {
-        switch(m) {
-            case 0 : 
-                return "Plastic";
-            case 1 :
-                return "Resins";
-            case 2 : 
-                return "PolyAmide(SlS)";
-            default :
-                return  "Plastic";
+    componentWillReceiveProps(nextProps) {
+        if(nextProps !== this.props) {
+            console.log("hello1");
+            if(nextProps.notifs) {
+                if(nextProps.notifs.length !== this.state.notifs.length) {
+                    console.log("Hey");
+                    this.setState({
+                        notifs : nextProps.notifs
+                    });
+                }
+            }
+            
         }
     }
+    
     render() {
-        let jsx = this.props.notifs ? (this.props.notifs.map((order) => {
-            let i =1;
+        let jsx = this.state.notifs.length ? (this.props.notifs.map((order) => {
             return (
-                <div className = "col s12 m6" key = {order.userid}>
-                        <Card header={<CardTitle reveal image={order.url} waves='light'/>}
-                            title={i +""}
-                            reveal={<div>
-                                        <p><b>Dimensions</b> : {order.len} X {order.width} X {order.height}</p>
-                                        <p><b>Color </b> : {order.color}</p>
-                                        <p><b>Layer Height </b>: {order.layerHeight} </p>
-                                        <p><b>Price </b> : {order.price}</p>
-                                        <p><b>Material </b>: {this.getMaterial(order.material)}</p>
-                                    </div>
-                                    }>
-                            <p>Status : <Button onClick = {this.handleAccept}>Accept</Button>  <Button onClick = {this.handleReject}>Reject</Button></p>
-                        </Card>
-                    </div>
+                <Cards order = {order} len= {this.props.notifs.length}/>
             );
         })) : "";
         return (
