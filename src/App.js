@@ -11,6 +11,7 @@ import {app} from './firebase';
 import Navigation from './components/nav/nav';
 import Home from './components/Home/home';
 import Orders from './components/client/viewStatus/orders';
+import Admin from './components/admin/admin';
 
 class App extends Component {
   componentDidMount() {
@@ -23,9 +24,18 @@ class App extends Component {
   }
   
   render() {
+    
     return (
       <div>
-        <Router history = {history}>
+{        history.location.pathname.match(/admin/) ? 
+        (
+            <Router history = {history}>
+              <div>
+                  <Admin />
+              </div>
+            </Router>
+        ) :
+        (<Router history = {history}>
           <div>
                  <Navigation />
                  <Route exact path = '/' component = {Home} />
@@ -36,7 +46,7 @@ class App extends Component {
                  )} />
                  <Route path = '/verify' component = {Verification} />
           </div>
-        </Router>
+        </Router>)}
       </div>
     );
   }

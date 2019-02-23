@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import {logout} from '../store/Thunks/thunks';
-import {Link,NavLink} from 'react-router-dom';
+import {NavLink} from 'react-router-dom';
 import {Navbar} from 'react-materialize';
 import './nav.css';
 
@@ -13,7 +13,8 @@ class Navigation extends Component {
                     <Navbar brand = "&nbsp;ProdPrint" className = "grey darken-4" right>
                     <div> 
                         <ul>
-                        {this.props.authState ?
+                        {                  
+                        (this.props.authState ?
                             <div>
                             <li><NavLink to = '/'>Home</NavLink></li>
                             <li><NavLink to='/orders'>Your orders</NavLink></li>
@@ -23,7 +24,7 @@ class Navigation extends Component {
                             <li><NavLink to = '/'>Home</NavLink></li>
                             <li><NavLink to='/signUp'>Signup</NavLink></li>
                             <li><NavLink to = '/login'>Login</NavLink></li>
-                            </div>
+                            </div>)
                         }
                         
                         </ul>
@@ -35,6 +36,7 @@ class Navigation extends Component {
     }
 }
 const mapStateToProps = (state) => {
+    console.log(state.reducer)
     return ({
         authState : state.reducer.user
     })
