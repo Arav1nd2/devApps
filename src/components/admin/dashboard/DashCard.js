@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {Card,CardTitle,Input} from 'react-materialize';
 import Button from 'react-materialize/lib/Button';
 import {connect} from 'react-redux';
+import './dash.css';
 import {sendMail} from '../../store/Thunks/thunks';
 
 class Dashcards extends Component {
@@ -41,12 +42,11 @@ class Dashcards extends Component {
     render() {
         let {order} = this.props;
         console.log(order);
-        let i=1;
         return (
             <div>
-               <div className = "col s12 m6" key = {order.userid}>
+               <div className = "col s12 m6 black-text" key = {order.userid}>
                         <Card header={<CardTitle reveal image={order.url} waves='light'/>}
-                            title={i++ +""}
+                            title={this.props.i +""}
                             reveal={<div>
                                         <p><b>Dimensions</b> : {order.len} X {order.width} X {order.height}</p>
                                         <p><b>Color </b> : {order.color}</p>
@@ -56,7 +56,7 @@ class Dashcards extends Component {
                                     </div>
                                     }>
                             {this.state.reject && <div><Input type = "text" label = "Reason" value = {this.state.reason} onChange = {this.handleChange} /><br/><br/></div>}
-                            <h6>Deliver : <Button onClick = {this.handleDeliver}>Deliver</Button></h6>
+                            <h6>Deliver : <Button className = "deliver-btn" onClick = {this.handleDeliver}>Deliver</Button></h6>
                         </Card>
                     </div> 
             </div>

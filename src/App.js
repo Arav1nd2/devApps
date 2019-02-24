@@ -12,6 +12,8 @@ import Navigation from './components/nav/nav';
 import Home from './components/Home/home';
 import Orders from './components/client/viewStatus/orders';
 import Admin from './components/admin/admin';
+import configs from './particlesjs-config.json';
+import Particles from 'react-particles-js';
 
 class App extends Component {
   componentDidMount() {
@@ -24,10 +26,12 @@ class App extends Component {
   }
   
   render() {
-    
     return (
       <div>
-{        history.location.pathname.match(/admin/) ? 
+        
+        <Particles params = {configs} className = "particles" />
+        
+        {history.location.pathname.match(/admin/) ? 
         (
             <Router history = {history}>
               <div>

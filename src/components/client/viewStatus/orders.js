@@ -59,7 +59,7 @@ class Orders extends Component {
                     badgeColor = "red";
                 }
                 return (
-                    <div className = "col s12 m4" key = {i}>
+                    <div className = "col s12 m6 black-text" key = {i}>
                         <Card header={<CardTitle reveal image={order.url} waves='light'/>}
                             title={i++ +""}
                             reveal={<div>
@@ -82,11 +82,11 @@ class Orders extends Component {
       
         return (
             <div className = "container">
-                <h5>Your orders...</h5>
+                <h5>Your orders</h5>
                 <div className = "row" >
                     {this.jobsPosted()}
                 </div>
-                <Modal  header = "Order something else"
+                <Modal  className = "black-text" header = "Order something else"
                         trigger = {<Button floating large className='red addButton' waves='light' icon='add' />}>
                         <Post />
                 </Modal>

@@ -24,9 +24,11 @@ class Dashboard extends Component {
     // }
     render() {
         console.log(this.props.tasks);
+        let i=0;
         let jsx = this.props.tasks ? (this.props.tasks.map((order) => {
+            i++;
             return (
-                <Dashcards order = {order} />
+                <Dashcards order = {order} i = {i}/>
             );
         })) : "";
         return (

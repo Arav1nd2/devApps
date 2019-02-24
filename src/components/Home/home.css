@@ -1,0 +1,41 @@
+.slogan {
+    line-height: 200%;
+}
+.steps {
+    width: 100%;
+    background-color: white;
+    color : black;
+    margin-top: 15%;
+    padding: 5% 3%; 
+}
+.large-step {
+    display: none;
+}
+.small-step {
+    width: 100% !important;
+}
+
+
+@media only screen and (min-width: 576px) {
+    /* For desktop: */
+    .small-step {
+        display: none;
+    }
+    .large-step {
+        display: inline;
+        width:100% !important;
+    }
+    .img {
+        display: inline;
+        margin : 0px;
+    }
+    .img-alt {
+        visibility: hidden;
+    }
+}
+
+@media only screen and (max-width: 575px) {
+    .img {
+        display: none;
+    }
+}

@@ -3,6 +3,7 @@ import FileUploader from "react-firebase-file-uploader";
 import {Button} from 'react-materialize';
 import {storage} from '../../../firebase';
 import {connect} from 'react-redux';
+import './uploader.css';
 
 class Uploader extends Component {
     constructor(props) {
@@ -64,8 +65,8 @@ class Uploader extends Component {
     render() {
         return (
             <div>
-                 <label className = "waves-effect waves-light btn">
-                    Select the file
+                 <label className = "waves-effect waves-light btn choose-btn truncate">
+                    <small>Select the file</small>
                     <FileUploader
                         hidden
                         accept="/*"
@@ -80,9 +81,9 @@ class Uploader extends Component {
                         ref={instance => this.uploaderRef = instance}
                     />
                 </label>
-                {this.state.url === "" ? <Button floating className = "blue" waves = "light" icon = "cloud_upload" disabled = {!this.state.upload} onClick = {() => this.startUpload()}></Button> :
-                <Button floating className = "blue" waves = "light" icon = "cloud_done"/>}
-                {this.state.isUploading && <>{this.state.progress}%</>}
+                {this.state.url === "" ? <Button floating className = "blue cloud-btn" waves = "light" icon = "cloud_upload" disabled = {!this.state.upload} onClick = {() => this.startUpload()}></Button> :
+                <Button floating className = "blue cloud-btn" waves = "light" icon = "cloud_done"/>}
+                {this.state.isUploading && <span className = "green-text">{this.state.progress}%</span>}
             </div>
         );
     }

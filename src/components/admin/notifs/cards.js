@@ -3,6 +3,7 @@ import {Card,CardTitle,Input} from 'react-materialize';
 import Button from 'react-materialize/lib/Button';
 import {connect} from 'react-redux';
 import {sendMail} from '../../store/Thunks/thunks';
+import './notif.css';
 
 class Cards extends Component {
     constructor(props) {
@@ -56,12 +57,11 @@ class Cards extends Component {
     }
     render() {
         let {order} = this.props;
-        let i=1;
         return (
             <div>
                <div className = "col s12 m6" key = {order.userid}>
                         <Card header={<CardTitle reveal image={order.url} waves='light'/>}
-                            title={i++ +""}
+                            title={this.props.i +""}
                             reveal={<div>
                                         <p><b>Dimensions</b> : {order.len} X {order.width} X {order.height}</p>
                                         <p><b>Color </b> : {order.color}</p>
@@ -71,7 +71,7 @@ class Cards extends Component {
                                     </div>
                                     }>
                             {this.state.reject && <div><Input type = "text" label = "Reason" value = {this.state.reason} onChange = {this.handleChange} /><br/><br/></div>}
-                            <h6>Status : <Button onClick = {this.handleAccept}>Accept</Button>  <Button onClick = {this.handleReject}>Reject</Button></h6>
+                            <h6>Status : <Button className = "accept-btn" onClick = {this.handleAccept}>Accept</Button>  <Button className = 'reject-btn' onClick = {this.handleReject}>Reject</Button></h6>
                         </Card>
                     </div> 
             </div>

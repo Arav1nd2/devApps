@@ -31,15 +31,17 @@ class Notifs extends Component {
     }
     
     render() {
+        let i=0;
         let jsx = this.state.notifs.length ? (this.props.notifs.map((order) => {
+            i++;
             return (
-                <Cards order = {order} len= {this.props.notifs.length}/>
+                <Cards order = {order} len= {this.props.notifs.length} i={i}/>
             );
         })) : "";
         return (
             <div className = "container">
                 <h5>Notifications</h5> 
-                <div className = "row">
+                <div className = "row black-text">
                     {jsx}     
                 </div>
             </div>

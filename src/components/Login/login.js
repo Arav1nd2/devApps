@@ -3,7 +3,8 @@ import {Link} from 'react-router-dom';
 import { connect } from 'react-redux';
 import {login} from '../store/Thunks/thunks';
 import {app} from '../../firebase';
-
+import './login.css';
+import {Input,Button} from 'react-materialize';
 
 class Login extends Component {
     
@@ -21,7 +22,7 @@ class Login extends Component {
         }
         this.handleForgotPassword = () => {
             this.setState({
-                forgotPass : true
+                forgotPass : !this.state.forgotPass
             });
             console.log("Stupid guy!"); 
         }
@@ -59,14 +60,14 @@ class Login extends Component {
 
     render() {
         return (
-            <div className="login-wrapper container">
+            <div className="container"> 
+                <div className = "card black-text">
+                <div className = "login-area">
                 <h4>Login</h4>
                     <div className="form-group">
-                        <label >Email address</label>
-                        <input  type="email" 
-                                className="form-control" 
-                                id="email" 
-                                placeholder="Enter email" 
+                        <Input  type="email" 
+                                label = "Email" 
+                                id="email"  
                                 value = {this.state.email}
                                 onChange = {this.handleEmailChange}
                                 required
@@ -75,16 +76,14 @@ class Login extends Component {
                     {this.state.forgotPass ? 
                     <div>
                          <small className = "errorMessage">{this.state.error}</small>
-                        <button type="submit" className="btn btn-primary btn-block" onClick = {this.handleResetPassword}>Send Password reset Link</button>
+                        <Button type="submit" className = "login-btn" onClick = {this.handleResetPassword} disabled = {this.state.email === ""}>Send Password reset Link</Button>
                     </div>
                     :
                     <div>
-                    <div className="form-group">
-                        <label >Password</label>
-                        <input  type="password" 
-                                className="form-control" 
+                    <div>
+                            <Input  type="password" 
                                 id="password" 
-                                placeholder="Password" 
+                                label = "Password"
                                 value = {this.state.password}
                                 onChange = {this.handlePasswordChange}
                                 required
@@ -92,13 +91,15 @@ class Login extends Component {
                      <small className = "errorMessage">{this.state.error}</small>
                     </div>
                    
-                    <button type="submit" className="btn btn-secondary btn-block" disabled={this.state.disableSubmit}onClick = {this.handleSubmit}>Login</button>
+                    <Button type="submit" className = 'login-btn' disabled={this.state.disableSubmit}onClick = {this.handleSubmit}>Login</Button>
                 <div className="signup-msg">
                     Don't have an account? <Link to = "/signup">Signup here</Link>
                 </div>
                 </div>
             }
                 <small><a onClick = {this.handleForgotPassword} href = "#">Forgot Password?</a></small>
+                </div>
+                </div>
             </div>
         )
     }

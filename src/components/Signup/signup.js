@@ -3,6 +3,8 @@ import {Link} from 'react-router-dom';
 import { connect } from 'react-redux';
 import {signup} from '../store/Thunks/thunks';
 import {app} from '../../firebase';
+import {Input,Button} from 'react-materialize';
+import '../Login/login.css';
 
 class Signup extends Component {
 
@@ -56,51 +58,50 @@ class Signup extends Component {
     }
     render() {
         return (
-            <div className="login-wrapper container">
-                <h2>Signup</h2>
+            <div className="container">
+                <div className = "card black-text">
+                <div className = "login-area">
+                <h4>Signup</h4>
                 
                     <div className="form-group">
-                        <label for="email">Email address</label>
-                        <input  type="email" 
-                                className="form-control" 
+                        <Input  type="email" 
                                 id="email" 
-                                placeholder="Enter email" 
+                                label = "Email"
                                 value = {this.state.email}
                                 onChange = {this.handleEmailChange}
                                 required
                                 />
                     </div>
                     <div className="form-group">
-                        <label for="password">Password</label>
-                        <input  type="password" 
-                                className="form-control" 
+                        <Input  type="password" 
                                 id="password" 
-                                placeholder="Password" 
+                                label = "Password"
                                 value = {this.state.password}
                                 onChange = {this.handlePasswordChange}
                                 required
                                 />
                     </div>
                     <div className="form-group">
-                        <label for="password">Re-type Password</label>
-                        <input  type="password" 
+                        <Input  type="password" 
                                 className="form-control" 
                                 id="retype-password" 
-                                placeholder="Re-type password" 
+                                label = "Retype password"
                                 value = {this.state.retypePassword}
                                 onChange = {this.handleRetypePasswordChange}
                                 required
                                 />
                     <small>{this.state.message}</small>
                     </div>
-                    <button type="submit" 
-                            className="btn btn-secondary btn-block"
+                    <Button type="submit" 
+                            className="login-btn"
                             disabled = {this.state.disableSubmit}
                             onClick = {this.handleSubmit}
-                            >Signup</button>
+                            >Signup</Button>
                 
                 <div className="signup-msg">
                     Already have an account? <Link to = "/login">Login here</Link>
+                </div>
+                </div>
                 </div>
             </div>
         )

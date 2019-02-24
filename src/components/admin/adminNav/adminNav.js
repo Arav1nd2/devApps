@@ -7,7 +7,7 @@ class AdminNav extends Component {
         return (
             <div >
                 <nav>
-                    <Navbar brand = "&nbsp;ProdPrint" className = "grey darken-4" right>
+                    <Navbar brand = "&nbsp;ProdPrint" className = "navBar" right>
                     <div> 
                         <ul>
                         {                  

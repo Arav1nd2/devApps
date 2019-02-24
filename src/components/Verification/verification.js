@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
 import {app,db} from '../../firebase';
-
+import {Button,Input} from 'react-materialize';
+import './verify.css';
 
 class Verification extends Component {
     constructor(props) {
@@ -76,22 +77,20 @@ class Verification extends Component {
         let displayContent;
         if(this.state.mode === "resetPassword") {
             displayContent = 
-            (<div className = "login-wrapper">
-                <div className="form-group">
-                        <label for="password">Password</label>
-                        <input  type="password" 
-                                className="form-control" 
+            (<div>
+                <div>
+                        <Input  type="password" 
                                 id="password" 
-                                placeholder="Password" 
+                                label = "Password"
                                 value = {this.state.password}
                                 onChange = {this.handlePasswordChange}
-                                required
                                 />
                 </div>
-                <button type="submit" 
-                            className="btn btn-primary btn-block"
+                <Button type="submit" 
+                            className="verify-btn"
                             onClick = {this.handleSubmit}
-                            >Reset Password</button>
+                            disabled = {this.state.password===""}
+                            >Reset Password</Button>
             </div>);
         } 
         else if(this.state.mode === "verifyEmail")
@@ -100,15 +99,19 @@ class Verification extends Component {
                 <h3>Your Email Has been verified Successfully!!!</h3>
                 <Link to = "/login" >Click here to login</Link>
             </div>) : 
-            (<button type="submit" 
-            className="btn btn-secondary"
+            (<Button type="submit" 
+            className="verify-btn"
             onClick = {this.handleVerify}
-            >Verify Email</button>);
+            >Verify Email</Button>);
         }
         return (
             <div className = "container">
                <br/><br/>
-               {displayContent}
+               <div className = "card">
+                    <div className = "verify-area black-text">
+                        {displayContent}                
+                    </div>
+               </div>
             </div>
         );
     }
