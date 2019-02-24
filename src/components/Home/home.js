@@ -9,6 +9,7 @@ import res300 from '../../assets/res300.png';
 import Magnifier from "react-magnifier";
 import {Icon} from 'react-materialize';
 
+
 class Home extends Component {
     render() {
         return (
@@ -51,7 +52,7 @@ class Home extends Component {
                 <div className = "steps">
                     <div className = "container">
                         <h5 className = "left-align">Contact Us</h5>
-                        <h6 className = "left-align"><Icon>phone</Icon> +91-1234567890</h6>
+                        <h6 className = "left-align"><i className = "material-icons">phone</i> +91-1234567890</h6>
                         <h6 className = "left-align"><Icon>mail</Icon> example@email.com</h6>
                         <h6 className = "left-align"><Icon>location_on</Icon> No. 22, North Usman Road, Chennai - 600001</h6>
                         <p className = "left-align">Having trouble? Call us at our toll-free number : 800-867-890</p>

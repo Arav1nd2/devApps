@@ -1,16 +1,17 @@
 import {app, db} from '../../../firebase';
 import {store, history} from '../store';
 import axios from 'axios';
+import  {notify} from 'react-notify-toast';
 
 export const signup = (email,pass) => (dispatch) => {
     app.auth().createUserWithEmailAndPassword(email,pass).then(() => {
-        console.log("Success");
+        notify.show("Account created !","success");
         dispatch({
             "type" : "Signup",
             "user" : app.auth().currentUser
         });
     }).catch((err) => {
-        console.log(err);
+        notify.show(err.message,"error");
     })
 }
 
@@ -58,7 +59,6 @@ export const setUser = (userId) => (dispatch) => {
 }
 
 export const postOrder = (details) => (dispatch) => {
-    console.log("Inside postOrder");
     let data = store.getState().reducer.user;
     let date = new Date();
     let order = store.getState().reducer.orders ? store.getState().reducer.orders : [];
@@ -70,7 +70,7 @@ export const postOrder = (details) => (dispatch) => {
             newOrder = [...order,newDetails];
             users = {...data,"orders" : [...data.orders,docRef.id] }        
             db.collection('users').doc(data.id).set(users).then((doc) => {
-                console.log("Data added to database" + doc);
+                notify.show("Order placed","success");
                 dispatch({
                     "type" : "placeOrder",
                     "newUser" : users ,
@@ -98,6 +98,8 @@ export const getOrder = (ids) => (dispatch) => {
                     "orders" : jobs
                  });
             }
+        }).catch((err) => {
+            notify.show(err.message,"error");
         })
         
     });
@@ -111,6 +113,8 @@ export const getTasks = () => (dispatch) => {
             "type" : "getTasks",
             tasks
         });
+    }).catch((err) => {
+        notify.show(err.message,"error");
     })
 }
 
@@ -162,9 +166,11 @@ export const getTasks = () => (dispatch) => {
 
 export const sendMail = (data) => (dispatch) => {
     axios.post('https://us-central1-devapps-5c8a1.cloudfunctions.net/sendEmail/sendemail', data).then((res) => {
-        console.log(res);
+        notify.show("Email Sent",'success');
         dispatch({
             "type" : "sendMail"
         });
-    }).catch((err) => console.log(err));
+    }).catch((err) => {
+        notify.show(err.message,"error");
+    });
 }

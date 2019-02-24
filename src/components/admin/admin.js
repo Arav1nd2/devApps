@@ -10,7 +10,7 @@ class Admin extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            authState : true
+            authState : false
         }
         this.login = () => {
             this.setState({

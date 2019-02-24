@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
 import {app,db} from '../../firebase';
 import {Button,Input} from 'react-materialize';
+import {notify} from 'react-notify-toast';
 import './verify.css';
 
 class Verification extends Component {
@@ -11,7 +12,8 @@ class Verification extends Component {
             verified : false,
             mode : "",
             password : "",
-            actionCode : ""
+            actionCode : "",
+            reset : false
         }
         this.handlePasswordChange = (e) => {
             this.setState({
@@ -22,12 +24,15 @@ class Verification extends Component {
             app.auth().verifyPasswordResetCode(this.state.actionCode).then((email) => {
 
                 app.auth().confirmPasswordReset(this.state.actionCode,this.state.password).then((resp) => {
-                    console.log("Password reset success!");
+                    notify.show("Password Reset Successful",'success');
+                    this.setState({
+                        reset : true
+                    });
                 }).catch((err) => {
-                    console.log(err);
+                    notify(err.message,'error');
                 })
             }).catch((err) => {
-                console.log(err);
+                notify(err.message,'error');
             })
         }
         this.handleVerify = () => {
@@ -39,15 +44,15 @@ class Verification extends Component {
                     email : user.email
                 }
                 db.collection('users').doc(user.uid).set(docData).then(()=> {
-                    console.log("Document Written successfully");
+                    notify.show("Account created");
                 }).catch((err) => {
-                    console.log(err);
+                    notify(err.message,'error');
                 });
                 this.setState({
                     verified : true
                 });
             }).catch((err) => {
-                console.log(err);
+                notify(err.message,'error');
             });
         }
         }
@@ -76,7 +81,11 @@ class Verification extends Component {
     render() {
         let displayContent;
         if(this.state.mode === "resetPassword") {
-            displayContent = 
+            displayContent = this.state.reset ?
+            (<div>
+                <h3>Your password Has been reset successfully!!!</h3>
+                <Link to = "/login" >Click here to login</Link>
+            </div>) : 
             (<div>
                 <div>
                         <Input  type="password" 

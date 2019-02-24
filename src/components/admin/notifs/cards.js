@@ -33,7 +33,7 @@ class Cards extends Component {
             let data = {
                 status : "Rejected",
                 userEmail : this.props.order.contactEmail,
-                deliveryTime : this.state.reason,
+                reason : this.state.reason,
                 id : this.props.order.orderId
             }
             this.props.sendMail(data);

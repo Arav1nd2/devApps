@@ -5,6 +5,7 @@ import {login} from '../store/Thunks/thunks';
 import {app} from '../../firebase';
 import './login.css';
 import {Input,Button} from 'react-materialize';
+import {notify} from 'react-notify-toast';
 
 class Login extends Component {
     
@@ -27,7 +28,7 @@ class Login extends Component {
             console.log("Stupid guy!"); 
         }
         this.handleResetPassword = () => {
-            app.auth().sendPasswordResetEmail(this.state.email).then(() => console.log("email sent")).catch((err) => {
+            app.auth().sendPasswordResetEmail(this.state.email).then(() => notify.show("Password Reset link sent",'success')).catch((err) => {
                 this.setState({
                     error : err.message
                 });
@@ -97,7 +98,7 @@ class Login extends Component {
                 </div>
                 </div>
             }
-                <small><a onClick = {this.handleForgotPassword} href = "#">Forgot Password?</a></small>
+                <small><p onClick = {this.handleForgotPassword} className ="blue-text">Forgot Password?</p></small>
                 </div>
                 </div>
             </div>

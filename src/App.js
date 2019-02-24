@@ -14,6 +14,7 @@ import Orders from './components/client/viewStatus/orders';
 import Admin from './components/admin/admin';
 import configs from './particlesjs-config.json';
 import Particles from 'react-particles-js';
+import Notifications from 'react-notify-toast';
 
 class App extends Component {
   componentDidMount() {
@@ -28,7 +29,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        
+        <Notifications />
         <Particles params = {configs} className = "particles" />
         
         {history.location.pathname.match(/admin/) ? 

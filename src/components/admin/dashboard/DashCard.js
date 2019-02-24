@@ -25,7 +25,7 @@ class Dashcards extends Component {
             id : this.props.order.orderId
         }
         this.props.sendMail(data);
-        console.log("Send Accepted email");
+        console.log("Send Deliver email");
     }
     getMaterial(m) {
         switch(m) {
